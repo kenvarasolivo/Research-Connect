@@ -92,17 +92,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // Mitarbeiter-Login
   document.getElementById('staff-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    const email = this.staffEmail.value;
+    const email = this.staffEmail.value.trim();
     const password = this.staffPassword.value;
-    // Beispiel: Nur FH-Mails erlauben
-    if (email.endsWith('@fh-aachen.de') && password) {
+    // Nur registrierte Mitarbeiter dürfen sich anmelden
+    const staffProfiles = JSON.parse(localStorage.getItem('staffProfiles') || '[]');
+    const staff = staffProfiles.find(s => s.email === email && s.password === password);
+    if (staff) {
       localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('username', email.split('@')[0]);
+      localStorage.setItem('username', staff.name);
       localStorage.setItem('userEmail', email);
       localStorage.setItem('role', 'staff');
       window.location.href = 'Index.html';
     } else {
-      alert('Bitte geben Sie eine gültige Dienst-E-Mail der FH Aachen ein.');
+      alert('Falsche Dienst-E-Mail oder Passwort, oder Sie sind nicht registriert.');
     }
   });
 
@@ -134,11 +136,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Mitarbeiterdaten speichern
+      // Prüfen, ob E-Mail schon registriert ist
       const staffProfiles = JSON.parse(localStorage.getItem('staffProfiles') || '[]');
+      if (staffProfiles.find(s => s.email === email)) {
+        alert('Diese Dienst-E-Mail ist bereits registriert!');
+        return;
+      }
+
+      // Mitarbeiterdaten speichern (inkl. Passwort)
       staffProfiles.push({
         name: name,
         email: email,
+        password: password,
         fachbereich: '',
         projekt: '',
         expertise: [],

@@ -10,40 +10,45 @@ body {
 
 .form-container {
   background: white;
-  padding: 40px 50px;
+  padding: 40px 50px 30px 50px;
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.1);
   width: 100%;
   max-width: 500px;
+  margin: 0 auto;
 }
 
 .form-tabs {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* zentriert die Buttons */
+  gap: 20px;               /* Abstand zwischen den Buttons */
   margin-bottom: 30px;
 }
 
 .form-tabs button {
-  flex: 1;
-  padding: 15px;
+  flex: 0 1 200px;         /* feste Breite für Buttons */
+  padding: 15px 0;
   background-color: #e0e0e0;
   border: none;
   cursor: pointer;
   font-weight: bold;
   font-size: 1rem;
   border-radius: 10px 10px 0 0;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s;
+  margin: 0 5px;
 }
 
 .form-tabs button.active {
   background-color: #54c8c3;
   color: white;
+  box-shadow: 0 4px 12px rgba(84,200,195,0.15);
 }
 
 .form {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  align-items: stretch;
 }
 
 .form input {
@@ -51,6 +56,12 @@ body {
   border: 1px solid #ccc;
   border-radius: 10px;
   font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form input:focus {
+  border-color: #54c8c3;
+  outline: none;
 }
 
 .form button {
@@ -84,4 +95,11 @@ body {
 .checkbox-label input[type="checkbox"] {
   margin-top: 5px;
   transform: scale(1.2);
+}
+
+#login-form,
+#register-form,
+#login-tab,
+#register-tab {
+  display: none !important;
 }

@@ -13,13 +13,13 @@
 <body>
   <div class="form-container">
     <div class="form-tabs">
-      <button id="login-tab" class="active">Login</button>
-      <button id="register-tab">Registrieren</button>
-      <button id="staff-tab">Mitarbeiter-Login</button>
+      <button id="login-tab" class="hidden">Login</button>
+      <button id="register-tab" class="hidden">Registrieren</button>
+      <button id="staff-tab" class="active">Mitarbeiter-Login</button>
       <button id="staff-register-tab">Mitarbeiter-Registrierung</button>
     </div>
 
-    <form id="login-form" class="form">
+    <form id="login-form" class="form hidden">
       <h2>Login</h2>
       <input type="email" name="username" placeholder="E-Mail" required />
       <input type="password" name="password" placeholder="Passwort" required />
@@ -46,7 +46,7 @@
       <button type="submit">Registrieren</button>
     </form>
 
-    <form id="staff-form" class="form hidden">
+    <form id="staff-form" class="form">
       <h2>Mitarbeiter-Login</h2>
       <input type="email" name="staffEmail" placeholder="Dienst-E-Mail" required />
       <input type="password" name="staffPassword" placeholder="Passwort" required />
