@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kreative Studio – Projekt-Detail</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="kreative_studio.css" />
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="sidebar-header"></div>
+      <div class="search-box">
+        <input type="text" placeholder="Search..." />
+        <span class="search-icon">🔍</span>
+      </div>
+      <div class="user-area" id="userArea" style="display: none;">
+        <p class="user-name">Willkommen, <span id="usernameDisplay">Benutzer</span></p>
+        <ul class="user-links" id="userLinks">
+          <!-- Links werden per JS gesetzt -->
+        </ul>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="main-header">
+        <h1><a href="projekt.html">Research Connect</a></h1>
+        <nav class="nav">
+          <a href="Index.html">Home</a>
+          <a href="projekt.html">Projekte</a>
+          <a href="personen.html">Personen</a>
+          <a href="fachbereich.html">Fachbereiche</a>
+          <a href="login.html" id="login-link">Login 🔐</a>
+          <span id="user-display"></span>
+        </nav>
+      </header>
+      <div class="studio-detail-container">
+        <div class="studio-header">
+          <h1>Kreative Studio</h1>
+          <p>
+            Ein interdisziplinäres Projekt zur Förderung von Kreativität und Innovation. Studierende entwickeln gemeinsam neue Konzepte für Design, Medien und Technik.
+          </p>
+        </div>
+        <div class="studio-gallery">
+          <img src="images/studio1.webp" alt="Kreative Studio Bild 1" />
+          <img src="images/studio2.webp" alt="Kreative Studio Bild 2" />
+          <img src="images/studio3.webp" alt="Kreative Studio Bild 3" />
+          <img src="images/studio4.webp" alt="Kreative Studio Bild 4" />
+        </div>
+        <div class="studio-content">
+          <p>
+            Das Kreative Studio der FH Aachen bringt Studierende aus verschiedenen Fachbereichen zusammen, um innovative Lösungen für aktuelle Herausforderungen zu entwickeln. Im Fokus stehen Design-Thinking, interaktive Medien, nachhaltige Gestaltung und die Verbindung von Technik und Kreativität.<br><br>
+            In praxisnahen Workshops und Projekten entstehen Prototypen, Medieninstallationen und Designkonzepte, die sowohl gesellschaftliche als auch technologische Fragestellungen adressieren. Die Teilnehmer:innen profitieren von moderner Ausstattung, inspirierenden Arbeitsräumen und der engen Zusammenarbeit mit Unternehmen und externen Partnern.
+          </p>
+        </div>
+        <div class="studio-facts">
+          <div class="studio-fact-card">
+            <h3>Schwerpunkte</h3>
+            <ul>
+              <li>Design-Thinking & Innovation</li>
+              <li>Interdisziplinäre Teamarbeit</li>
+              <li>Medien- und Technikprojekte</li>
+              <li>Nachhaltige Gestaltung</li>
+            </ul>
+          </div>
+          <div class="studio-fact-card">
+            <h3>Erfolge</h3>
+            <ul>
+              <li>Auszeichnungen bei Design-Wettbewerben</li>
+              <li>Präsentationen auf Fachmessen</li>
+              <li>Kooperationen mit Unternehmen</li>
+            </ul>
+          </div>
+          <div class="studio-fact-card">
+            <h3>Mitmachen?</h3>
+            <ul>
+              <li>Offen für Studierende aller Fachrichtungen</li>
+              <li>Regelmäßige Infoveranstaltungen</li>
+              <li>Kontakt: studio@fh-aachen.de</li>
+            </ul>
+          </div>
+        </div>
+        <div class="kontakt-btn-container">
+          <a href="Kontakt-Formular.html" class="kontakt-btn">✉️ Kontaktformular</a>
+        </div>
+      </div>
+    </main>
+    <aside class="right-logo">
+      <img src="images/fh banner.png" />
+    </aside>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      const username = localStorage.getItem('username') || 'Benutzer';
+      const role = localStorage.getItem('role') || 'student';
+
+      const userArea = document.getElementById('userArea');
+      const usernameDisplay = document.getElementById('usernameDisplay');
+      const loginLink = document.getElementById('login-link');
+      const userDisplay = document.getElementById('user-display');
+      const userLinks = document.getElementById('userLinks');
+
+      if (isLoggedIn) {
+        userArea.style.display = 'block';
+        usernameDisplay.textContent = username;
+
+        loginLink.textContent = 'Abmelden 🔓';
+        loginLink.href = '#';
+        loginLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          localStorage.removeItem('isLoggedIn');
+          localStorage.removeItem('username');
+          location.reload();
+        });
+
+        userDisplay.innerHTML = `Hallo, <strong>${username}</strong>`;
+
+        if (role === 'staff') {
+          userLinks.innerHTML = `
+            <li><a href="mitarbeiter_profil.html">👤 Mitarbeiter-Profil</a></li>
+            <li><a href="projekterstellung.html">➕ Projekt erstellen</a></li>
+            <li><a href="eigene_projekte.html">📁 Eigene Projekte</a></li>
+          `;
+        } else {
+          userLinks.innerHTML = `
+            <li><a href="profil.html">👤 Profil</a></li>
+            <li><a href="projekterstellung.html">➕ Projekt erstellen</a></li>
+            <li><a href="eigene_projekte.html">📁 Eigene Projekte</a></li>
+          `;
+        }
+      } else {
+        userArea.style.display = 'none';
+
+        loginLink.textContent = 'Login 🔐';
+        loginLink.href = 'login.html';
+        userDisplay.textContent = '';
+        userLinks.innerHTML = '';
+      }
+    });
+  </script>
+</body>
+</html>

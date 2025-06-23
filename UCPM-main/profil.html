@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Profil</title>
+  <link rel="stylesheet" href="profil.css">
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <a href="Index.html" class="back-link">← Zurück</a>
+    </div>
+
+    <div class="content">
+      <h1><u>Simon Claw</u></h1>
+
+      <div class="profile-section">
+        <div class="left">
+          <label for="uploadInput">
+            <img id="profilbild" src="images/Simon_Claw.png" alt="Profilbild" style="cursor: pointer;">
+          </label>
+          <input type="file" id="uploadInput" accept="image/*" style="display: none;">
+          <div class="field">
+            <label for="nameInput">Name</label>
+            <input type="text" id="nameInput">
+          </div>
+          <div class="field">
+            <label for="emailInput">Email</label>
+            <input type="text" id="emailInput">
+          </div>
+        </div>
+
+        <div class="right">
+          <div class="field">
+            <label for="fachbereich">Fachbereich</label>
+            <input type="text" id="fachbereich">
+          </div>
+          <div class="field inline">
+            <span>＋</span>
+            <label>neue hinzufügen</label>
+          </div>
+          <div class="field">
+            <label for="anschrift">Anschrift</label>
+            <input type="text" id="anschrift">
+          </div>
+          <div class="field">
+            <label for="handy">Handynummer</label>
+            <input type="text" id="handy">
+          </div>
+          <div class="field">
+            <label for="lehrveranstaltungen">Lehrveranstaltungen</label>
+            <input type="text" id="lehrveranstaltungen">
+          </div>
+        </div>
+      </div>
+
+      <button class="save-button" id="saveBtn">Speichern</button>
+    </div>
+  </div>
+  <script>
+  const nameInput = document.getElementById('nameInput');
+  const email = document.getElementById('emailInput');
+  const fachbereich = document.getElementById('fachbereich');
+  const anschrift = document.getElementById('anschrift');
+  const handy = document.getElementById('handy');
+  const lehrveranstaltungen = document.getElementById('lehrveranstaltungen');
+  const profilbild = document.getElementById('profilbild');
+  const uploadInput = document.getElementById('uploadInput');
+  let newImageData = null;
+
+  window.addEventListener('DOMContentLoaded', () => {
+    // Name und E-Mail aus Profil oder Registrierung laden
+    nameInput.value = localStorage.getItem('profil_name') || localStorage.getItem('username') || '';
+    email.value = localStorage.getItem('profil_email') || localStorage.getItem('userEmail') || '';
+    fachbereich.value = localStorage.getItem('profil_fachbereich') || '';
+    anschrift.value = localStorage.getItem('profil_anschrift') || '';
+    handy.value = localStorage.getItem('profil_handy') || '';
+    lehrveranstaltungen.value = localStorage.getItem('profil_lehrveranstaltungen') || '';
+
+    const savedImage = localStorage.getItem('profil_bild');
+    if (savedImage) {
+      profilbild.src = savedImage;
+    }
+  });
+
+    uploadInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        profilbild.src = e.target.result;
+        newImageData = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  document.getElementById('saveBtn').addEventListener('click', function() {
+    localStorage.setItem('profil_name', nameInput.value);
+    localStorage.setItem('profil_email', email.value);
+    localStorage.setItem('profil_fachbereich', fachbereich.value);
+    localStorage.setItem('profil_anschrift', anschrift.value);
+    localStorage.setItem('profil_handy', handy.value);
+    localStorage.setItem('profil_lehrveranstaltungen', lehrveranstaltungen.value);
+    if (newImageData) {
+    localStorage.setItem('profil_bild', newImageData);
+    }
+    window.location.href = 'Index.html';
+  });
+  </script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Fördern – Research Connect</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: white;
+    }
+
+    .sidebar {
+      position: fixed;
+      width: 250px;
+      height: 100%;
+      background-color: #50c4b7;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .search-container {
+      position: relative;
+      margin-top: 20px;
+      margin-left: -10px;
+    }
+
+    .sidebar input {
+      width: 80%;
+      padding: 10px 35px 10px 15px;
+      border-radius: 25px;
+      border: none;
+      font-size: 14px;
+      background-color: white;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+
+    .search-container button {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: default;
+      color: #333;
+      pointer-events: none;
+    }
+
+    .main {
+      margin-left: 250px;
+    }
+
+    .nav {
+      background-color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .nav-title {
+      font-size: 28px;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .navbar-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      flex-wrap: wrap;
+    }
+
+    .navbar-links a {
+      text-decoration: none;
+      color: black;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .header {
+      background-color: #50c4b7;
+      margin: 20px;
+      border-radius: 10px;
+      text-align: center;
+      padding: 15px;
+      color: white;
+      font-weight: bold;
+    }
+
+    .project-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .project-card {
+      width: 300px;
+      background-color: #e9fcfc;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .project-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .project-card .content {
+      padding: 15px;
+    }
+
+    .project-card h3 {
+      margin-top: 0;
+      color: #008080;
+    }
+
+    .project-card p {
+      color: #333;
+    }
+
+    .project-card a {
+      color: #00aa88;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logo ganz oben rechts -->
+  <div style="position: absolute; top: 10px; right: 10px; z-index: 999;">
+    <img src="images/fh banner.png" alt="FH Aachen Logo" style="height: 60px;">
+  </div>
+
+  <div class="sidebar">
+    <div class="search-container">
+      <input type="text" placeholder="Search...">
+      <button type="submit">🔍</button>
+    </div>
+  </div>
+
+ <div class="main">
+    <div class="nav">
+      <div class="nav-title">Research Connect</div>
+      <div class="navbar-links">
+        <a href="Index.html">Home</a>
+        <a href="projekt.html">Projekte</a>
+        <a href="personen.html">Personen</a>
+        <a href="fachbereich.html">Fachbereiche</a>
+        <a href="login.html">Login <span role="img" aria-label="lock">🔒</span></a>
+      </div>
+    </div>
+
+    <div class="header">
+      <h2>Unsere Projekte</h2>
+      <p>Hier findest du eine Auswahl spannender Förderprojekte der FH Aachen.</p>
+    </div>
+
+    <div class="project-container">
+      <!-- Projekt 1 -->
+      <div class="project-card">
+        <div class="content">
+          <h3>Talentförderung für Schüler:innen</h3>
+          <p>Workshops & Mentoring zur frühen Förderung von MINT-Talenten.</p>
+          <a href="Talentföderung1.html">Mehr erfahren</a>
+        </div>
+      </div>
+
+      <!-- Projekt 2 -->
+      <div class="project-card">
+        <div class="content">
+          <h3>Startup Lab Förderprogramm</h3>
+          <p>Ideen umsetzen: Förderung, Coaching & Coworking für junge Gründer:innen.</p>
+          <a href="Startup-Lab-Förderprogramm.html">Mehr erfahren</a>
+        </div>
+      </div>
+
+      <!-- Projekt 3 -->
+      <div class="project-card">
+        <div class="content">
+          <h3>Frauen in Forschung & Technik</h3>
+          <p>Netzwerke & Stipendien für mehr Frauen in MINT-Berufen.</p>
+          <a href="Frauen-in-Forschung&Technik.html">Mehr erfahren</a>
+        </div>
+      </div>
+
+      <!-- Projekt 4 -->
+      <div class="project-card">
+        <div class="content">
+          <h3>Internationale Förderung</h3>
+          <p>Unterstützung für Forschung & Austauschprogramme weltweit.</p>
+          <a href="Internationale-Förderung.html">Mehr erfahren</a>
+        </div>
+      </div>
+
+      <!-- Projekt 5 -->
+      <div class="project-card">
+        <div class="content">
+          <h3>Soziale Innovation fördern</h3>
+          <p>Kreative Lösungen für gesellschaftliche Herausforderungen.</p>
+          <a href="Soziale-Innovation-fördern.html">Mehr erfahren</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

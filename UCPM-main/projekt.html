@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projekte – Research Connect</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="sidebar-header"></div>
+    <div class="search-box">
+      <input type="text" placeholder="Search..." />
+      <span class="search-icon">🔍</span>
+    </div>
+    <div class="user-area" id="userArea" style="display: none;">
+      <p class="user-name">Willkommen, <span id="usernameDisplay">Benutzer</span></p>
+      <ul class="user-links" id="userLinks"></ul>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="main-header">
+      <h1><a href="#">Research Connect</a></h1>
+      <nav class="nav">
+        <a href="Index.html">Home</a>
+        <a href="projekt.html">Projekte</a>
+        <a href="personen.html">Personen</a>
+        <a href="fachbereich.html">Fachbereiche</a>
+        <a href="login.html" id="login-link">Login 🔐</a>
+        <span id="user-display"></span>
+      </nav>
+    </header>
+
+    <section class="highlight">
+      <h2>Unsere Projekte</h2>
+      <p>Hier findest du eine Auswahl spannender Forschungsprojekte der FH Aachen.</p>
+    </section>
+
+    <section class="projekt-grid">
+      <article class="projekt-card">
+        <img src="images/projekt1.jpg" alt="Projekt 1" />
+        <div class="projekt-info">
+          <h3>Kreative Studio</h3>
+          <p>Ein interdisziplinäres Projekt zur Förderung von Kreativität und Innovation.</p>
+          <a href="Kreative_Studio.html" class="read-more">Mehr erfahren</a>
+        </div>
+      </article>
+      <article class="projekt-card">
+        <img src="images/projekt2.jpg" alt="Projekt 2" />
+        <div class="projekt-info">
+          <h3>Autonomes Fahren</h3>
+          <p>Forschung und Entwicklung an selbstfahrenden Fahrzeugen.</p>
+          <a href="#" class="read-more">Mehr erfahren</a>
+        </div>
+      </article>
+      <article class="projekt-card">
+        <img src="images/projekt3.jpg" alt="Projekt 3" />
+        <div class="projekt-info">
+          <h3>GreenScreen-Forschung</h3>
+          <p>Untersuchung nachhaltiger Technologien für Medienproduktionen.</p>
+          <a href="#" class="read-more">Mehr erfahren</a>
+        </div>
+      </article>
+      <article class="projekt-card">
+        <img src="images/projekt4.jpg" alt="Metall Arbeit" />
+        <div class="projekt-info">
+          <h3>Metall Arbeit</h3>
+          <p>Innovative Fertigungstechniken im Bereich Metallverarbeitung.</p>
+          <a href="#" class="read-more">Mehr erfahren</a>
+        </div>
+      </article>
+      <article class="projekt-card">
+        <img src="images/projekt5.jpg" alt="FH Gartenbau" />
+        <div class="projekt-info">
+          <h3>FH Gartenbau</h3>
+          <p>Urban Gardening und nachhaltige Pflanzenzucht auf dem Campus.</p>
+          <a href="#" class="read-more">Mehr erfahren</a>
+        </div>
+      </article>
+      <article class="projekt-card">
+        <img src="images/projekt6.webp" alt="Zell Transformation" />
+        <div class="projekt-info">
+          <h3>Zell Transformation</h3>
+          <p>Forschung zur gentechnischen Veränderung von Zellen.</p>
+          <a href="#" class="read-more">Mehr erfahren</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <aside class="right-logo">
+    <img src="images/fh banner.png" />
+  </aside>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const username = localStorage.getItem('username') || 'Benutzer';
+    const role = localStorage.getItem('role') || 'student';
+
+    const userArea = document.getElementById('userArea');
+    const usernameDisplay = document.getElementById('usernameDisplay');
+    const loginLink = document.getElementById('login-link');
+    const userDisplay = document.getElementById('user-display');
+    const userLinks = document.getElementById('userLinks');
+
+    if (isLoggedIn) {
+      userArea.style.display = 'block';
+      usernameDisplay.textContent = username;
+
+      if (role === 'staff') {
+        userLinks.innerHTML = `
+            <li><a href="mitarbeiter_profil.html">👤 Mitarbeiter-Profil</a></li>
+            <li><a href="projekterstellung.html">➕ Projekt erstellen</a></li>
+            <li><a href="eigene_projekte.html">📁 Eigene Projekte</a></li>
+          `;
+      } else {
+        userLinks.innerHTML = `
+            <li><a href="profil.html">👤 Profil</a></li>
+            <li><a href="projekterstellung.html">➕ Projekt erstellen</a></li>
+            <li><a href="eigene_projekte.html">📁 Eigene Projekte</a></li>
+          `;
+      }
+
+      loginLink.textContent = 'Abmelden 🔓';
+      loginLink.href = '#';
+      loginLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('username');
+        location.reload();
+      });
+
+      userDisplay.innerHTML = `Hallo, <strong>${username}</strong>`;
+    }
+
+    const searchInput = document.querySelector(".search-box input");
+
+    searchInput.addEventListener("input", function () {
+      const query = this.value.toLowerCase();
+      const projektKeys = JSON.parse(localStorage.getItem("projekte_liste") || "[]");
+
+      const matchingProjects = projektKeys
+              .map(key => JSON.parse(localStorage.getItem("projekt_" + key)))
+              .filter(projekt =>
+                      projekt &&
+                      (projekt.titel?.toLowerCase().includes(query) ||
+                              projekt.thema?.toLowerCase().includes(query) ||
+                              projekt.beschreibung?.toLowerCase().includes(query) ||
+                              projekt.fachbereich?.toLowerCase().includes(query))
+              );
+
+      showSearchResults(matchingProjects);
+    });
+
+    function showSearchResults(results) {
+      let resultBox = document.getElementById("search-results");
+      if (!resultBox) {
+        resultBox = document.createElement("div");
+        resultBox.id = "search-results";
+        resultBox.style.position = "absolute";
+        resultBox.style.background = "#fff";
+        resultBox.style.border = "1px solid #ccc";
+        resultBox.style.maxHeight = "200px";
+        resultBox.style.overflowY = "auto";
+        resultBox.style.zIndex = 1000;
+        resultBox.style.width = "100%";
+        document.querySelector(".search-box").appendChild(resultBox);
+      }
+
+      resultBox.innerHTML = "";
+
+      const query = searchInput.value.toLowerCase();
+      const projektKeys = JSON.parse(localStorage.getItem("projekte_liste") || "[]");
+      const matchingProjects = projektKeys
+              .map(key => JSON.parse(localStorage.getItem("projekt_" + key)))
+              .filter(projekt =>
+                      projekt &&
+                      (projekt.titel?.toLowerCase().includes(query) ||
+                              projekt.thema?.toLowerCase().includes(query) ||
+                              projekt.beschreibung?.toLowerCase().includes(query) ||
+                              projekt.fachbereich?.toLowerCase().includes(query))
+              );
+
+      const foerderungen = [
+        { titel: "Talentförderung für Schüler:innen", link: "Talentföderung1.html" },
+        { titel: "Startup Lab Förderprogramm", link: "Startup-Lab-Förderprogramm.html" },
+        { titel: "Frauen in Forschung & Technik", link: "Frauen-in-Forschung&Technik.html" },
+        { titel: "Internationale Förderung", link: "Internationale-Förderung.html" },
+        { titel: "Soziale Innovation fördern", link: "Soziale-Innovation-fördern.html" }
+      ].filter(programm =>
+              programm.titel.toLowerCase().includes(query)
+      );
+
+      if (matchingProjects.length === 0 && foerderungen.length === 0) {
+        resultBox.innerHTML = "<p style='margin: 8px;'>Keine Treffer</p>";
+        return;
+      }
+
+      matchingProjects.forEach(projekt => {
+        const div = document.createElement("div");
+        div.style.padding = "8px";
+        div.style.borderBottom = "1px solid #eee";
+        div.style.cursor = "pointer";
+        div.textContent = `${projekt.titel} – ${projekt.fachbereich}`;
+        div.onclick = () => {
+          window.location.href = `projekt_uebersicht.html?titel=${encodeURIComponent(projekt.titel)}`;
+        };
+        resultBox.appendChild(div);
+      });
+
+      foerderungen.forEach(programm => {
+        const div = document.createElement("div");
+        div.style.padding = "8px";
+        div.style.borderBottom = "1px solid #eee";
+        div.style.cursor = "pointer";
+        div.textContent = `${programm.titel} – Förderprogramm`;
+        div.onclick = () => {
+          window.location.href = programm.link;
+        };
+        resultBox.appendChild(div);
+      });
+    }
+
+    const projekteGrid = document.querySelector('.projekt-grid');
+    const projekte = JSON.parse(localStorage.getItem('projekte_liste') || "[]");
+
+    if (projekte.length > 0) {
+      projekte.forEach(titel => {
+        const projekt = JSON.parse(localStorage.getItem('projekt_' + titel));
+        if (projekt) {
+          const article = document.createElement('article');
+          article.className = 'projekt-card';
+          const imgSrc = projekt.bild && projekt.bild.trim() !== '' ? projekt.bild : 'images/projekt1.jpg';
+          const imgAlt = projekt.titel || 'Projektbild';
+
+          article.innerHTML = `
+              <img src="${imgSrc}" alt="${imgAlt}" />
+              <div class="projekt-info">
+                <h3>${projekt.titel}</h3>
+                <p>${projekt.beschreibung}</p>
+                <a href="projekt_uebersicht.html?titel=${encodeURIComponent(projekt.titel)}" class="read-more">Mehr erfahren</a>
+              </div>
+            `;
+          projekteGrid.appendChild(article);
+        }
+      });
+    }
+  });
+</script>
+
+<footer style="text-align: center; margin-top: 5px; padding: 15px 0; font-size: 1.2em;">
+  <a href="fördern.html" style="color: #007bff; text-decoration: none; font-weight: bold;">
+    ➜ Förderungen – hier weiter klicken
+  </a>
+</footer>
+</body>
+</html>

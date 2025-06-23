@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Projektübersicht</title>
+  <link rel="stylesheet" href="projekterstellung.css">
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <a href="Index.html" class="back-link">← Zurück</a>
+    </div>
+    <div class="content">
+      <h1 id="projektTitel"></h1>
+      <div id="projektDetails"></div>
+    </div>
+  </div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const titel = params.get('titel');
+    document.getElementById('projektTitel').textContent = titel || 'Projektübersicht';
+
+    const projekt = JSON.parse(localStorage.getItem('projekt_' + titel));
+    if (projekt) {
+    // Load all profiles
+    const staticProfiles = [
+      {
+        name: "Tim Cheese",
+        bild: "images/Tim_Cheese.png",
+        expertise: ["Expertise 1", "Expertise 2"],
+        projekt: "Projekttitel",
+        email: "tim.cheese@email.com"
+      }
+      // Weitere statische Profile ergänzen bei Bedarf
+    ];
+    const staffProfiles = JSON.parse(localStorage.getItem('staffProfiles') || '[]');
+    const allProfiles = [...staticProfiles, ...staffProfiles];
+
+    // Match research group emails to profiles
+    let groupHtml = '<p><strong>Forschungsgruppe:</strong><br>';
+    if (projekt.forschungsgruppe && projekt.forschungsgruppe.length > 0) {
+      projekt.forschungsgruppe.forEach(email => {
+        const person = allProfiles.find(p => p.email === email);
+        if (person) {
+          groupHtml += `${person.name} (<a href="mailto:${person.email}">${person.email}</a>)<br>`;
+        } else {
+          groupHtml += `${email}<br>`; // fallback
+        }
+      });
+      groupHtml += '</p>';
+    } else {
+      groupHtml = '<p><strong>Forschungsgruppe:</strong> Keine Mitglieder</p>';
+    }
+
+    // Fill in the content
+    document.getElementById('projektDetails').innerHTML = `
+      <p><strong>Fachbereich:</strong> ${projekt.fachbereich}</p>
+      <p><strong>Thema:</strong> ${projekt.thema}</p>
+      <p><strong>Ort:</strong> ${projekt.ort}</p>
+      <p><strong>Startdatum:</strong> ${projekt.startdatum}</p>
+      <p><strong>Enddatum:</strong> ${projekt.enddatum}</p>
+      ${groupHtml}
+      <p><strong>Beschreibung:</strong><br>${projekt.beschreibung}</p>
+    `;
+    } else {
+      document.getElementById('projektDetails').textContent = "Projekt nicht gefunden.";
+  }
+  </script>
+</body>
+</html>

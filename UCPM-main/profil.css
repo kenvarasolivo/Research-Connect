@@ -1,0 +1,216 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f0f0f0;
+  color: #222;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background-color: #54c8c3;
+  width: 250px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
+  box-shadow: 2px 0 12px rgba(84,200,195,0.10);
+}
+
+.back-link {
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 30px;
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+.back-link:hover {
+  color: #0077aa;
+}
+
+.content {
+  background: linear-gradient(120deg, #e0f7fa 60%, #fff 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 18px rgba(84,200,195,0.13), 0 1px 4px rgba(0,0,0,0.06);
+  padding: 40px 36px 32px 36px;
+  max-width: 900px;
+  margin: 40px auto 0 auto;
+  flex: 1;
+}
+
+h1 {
+  margin-bottom: 32px;
+  font-size: 2.2rem;
+  color: #0077aa;
+  text-align: left;
+  letter-spacing: 0.5px;
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.profile-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px;
+  margin-top: 20px;
+}
+
+.left {
+  flex: 1 1 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;     /* Links bündig für Inhalt */
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(84,200,195,0.13);
+  padding: 24px 20px 18px 20px;
+  min-width: 220px;
+  max-width: 320px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.left:hover {
+  box-shadow: 0 8px 24px rgba(84,200,195,0.18), 0 2px 8px rgba(0,0,0,0.10);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.left img {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #54c8c3;
+  background: #f8f8f8;
+  box-shadow: 0 2px 8px rgba(84,200,195,0.10);
+  margin-bottom: 18px;
+  transition: border 0.2s;
+}
+.left img:hover {
+  border: 3px solid #0077aa;
+}
+
+.left p {
+  margin: 10px 0 6px 0;
+  font-size: 1.08rem;
+  letter-spacing: 0.1px;
+  text-align: left;           /* Links bündig */
+  width: 100%;                /* Volle Breite */
+  padding-left: 0;            /* Kein zusätzlicher Abstand */
+}
+
+.left strong {
+  color: #0077aa;
+  font-weight: 600;
+  min-width: 90px;
+  display: inline-block;
+}
+
+.right {
+  flex: 2 1 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 420px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(84,200,195,0.08);
+  padding: 16px 18px 12px 18px;
+  transition: box-shadow 0.2s;
+}
+.field:focus-within {
+  box-shadow: 0 4px 16px rgba(84,200,195,0.13);
+}
+
+.field.inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  color: #0077aa;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #0077aa;
+  letter-spacing: 0.2px;
+}
+
+input[type="text"] {
+  padding: 10px 12px;
+  border: 1.5px solid #54c8c3;
+  border-radius: 8px;
+  background: #f8f8f8;
+  font-size: 1rem;
+  transition: border 0.2s, background 0.2s;
+  margin-top: 2px;
+}
+input[type="text"]:focus {
+  border: 1.5px solid #0077aa;
+  outline: none;
+  background: #e0f7fa;
+}
+
+.save-button {
+  display: inline-block;
+  margin-top: 36px;
+  background: linear-gradient(90deg, #54c8c3 70%, #0077aa 100%);
+  color: white;
+  padding: 14px 40px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1.15rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(84,200,195,0.10);
+  transition: background 0.2s, transform 0.1s;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+.save-button:hover {
+  background: linear-gradient(90deg, #0077aa 70%, #54c8c3 100%);
+  transform: translateY(-2px) scale(1.03);
+}
+
+@media (max-width: 900px) {
+  .content {
+    padding: 18px 6px 12px 6px;
+    max-width: 98vw;
+  }
+  .profile-section {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .left, .right {
+    max-width: 98vw;
+    min-width: unset;
+    align-items: center;
+  }
+  .left img {
+    width: 90px;
+    height: 90px;
+  }
+  .right {
+    text-align: center;
+  }
+}
+
+img#profilbild:hover {
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
