@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login & Registrierung</title>
+  <link rel="stylesheet" href="login.css" />
+  <style>
+    .hidden { display: none; }
+    .active { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <div class="form-tabs">
+      <button id="login-tab" class="hidden">Login</button>
+      <button id="register-tab" class="hidden">Registrieren</button>
+      <button id="staff-tab" class="active">Mitarbeiter-Login</button>
+      <button id="staff-register-tab">Mitarbeiter-Registrierung</button>
+    </div>
+
+    <form id="login-form" class="form hidden">
+      <h2>Login</h2>
+      <input type="email" name="username" placeholder="E-Mail" required />
+      <input type="password" name="password" placeholder="Passwort" required />
+      <button type="submit">Anmelden</button>
+    </form>
+
+    <form id="register-form" class="form hidden">
+      <h2>Registrieren</h2>
+      <input type="text" name="username" placeholder="Name" required />
+      <input type="email" name="email" placeholder="E-Mail" required />
+      <input type="password" name="password" placeholder="Passwort" required />
+      <input type="password" name="passwordRepeat" placeholder="Passwort wiederholen" required />
+
+      <label class="checkbox-label">
+        <input type="checkbox" id="privacy" required />
+        Ich habe die <a href="datenschutz.html" target="_blank">Datenschutzerklärung</a> gelesen und akzeptiere sie.
+      </label>
+
+      <label class="checkbox-label">
+        <input type="checkbox" id="consent" required />
+        Ich willige in die Verarbeitung meiner Daten gemäß der Einwilligungserklärung ein.
+      </label>
+
+      <button type="submit">Registrieren</button>
+    </form>
+
+    <form id="staff-form" class="form">
+      <h2>Mitarbeiter-Login</h2>
+      <input type="email" name="staffEmail" placeholder="Dienst-E-Mail" required />
+      <input type="password" name="staffPassword" placeholder="Passwort" required />
+      <input type="text" name="staffID" placeholder="Mitarbeiter-ID (optional)" />
+      <button type="submit">Anmelden</button>
+    </form>
+
+    <form id="staff-register-form" class="form hidden">
+      <h2>Mitarbeiter-Registrierung</h2>
+      <input type="text" name="staffName" placeholder="Name" required />
+      <input type="email" name="staffEmail" placeholder="Dienst-E-Mail" required />
+      <input type="password" name="staffPassword" placeholder="Passwort" required />
+      <input type="password" name="staffPasswordRepeat" placeholder="Passwort wiederholen" required />
+      <input type="text" name="staffID" placeholder="Mitarbeiter-ID (optional)" />
+
+      <label class="checkbox-label">
+        <input type="checkbox" id="staff-privacy" required />
+        Ich habe die <a href="datenschutz.html" target="_blank">Datenschutzerklärung</a> gelesen und akzeptiere sie.
+      </label>
+      <label class="checkbox-label">
+        <input type="checkbox" id="staff-consent" required />
+        Ich willige in die Verarbeitung meiner Daten gemäß der Einwilligungserklärung ein.
+      </label>
+
+      <button type="submit">Registrieren</button>
+    </form>
+  </div>
+
+  <script src="login.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const loginTab = document.getElementById('login-tab');
+    const registerTab = document.getElementById('register-tab');
+    const staffTab = document.getElementById('staff-tab');
+    const staffRegisterTab = document.getElementById('staff-register-tab');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const staffForm = document.getElementById('staff-form');
+    const staffRegisterForm = document.getElementById('staff-register-form');
+
+    loginTab.onclick = () => {
+      loginTab.classList.add('active');
+      registerTab.classList.remove('active');
+      staffTab.classList.remove('active');
+      staffRegisterTab.classList.remove('active');
+      loginForm.classList.remove('hidden');
+      registerForm.classList.add('hidden');
+      staffForm.classList.add('hidden');
+      staffRegisterForm.classList.add('hidden');
+    };
+    registerTab.onclick = () => {
+      loginTab.classList.remove('active');
+      registerTab.classList.add('active');
+      staffTab.classList.remove('active');
+      staffRegisterTab.classList.remove('active');
+      loginForm.classList.add('hidden');
+      registerForm.classList.remove('hidden');
+      staffForm.classList.add('hidden');
+      staffRegisterForm.classList.add('hidden');
+    };
+    staffTab.onclick = () => {
+      loginTab.classList.remove('active');
+      registerTab.classList.remove('active');
+      staffTab.classList.add('active');
+      staffRegisterTab.classList.remove('active');
+      loginForm.classList.add('hidden');
+      registerForm.classList.add('hidden');
+      staffForm.classList.remove('hidden');
+      staffRegisterForm.classList.add('hidden');
+    };
+    staffRegisterTab.onclick = () => {
+      loginTab.classList.remove('active');
+      registerTab.classList.remove('active');
+      staffTab.classList.remove('active');
+      staffRegisterTab.classList.add('active');
+      loginForm.classList.add('hidden');
+      registerForm.classList.add('hidden');
+      staffForm.classList.add('hidden');
+      staffRegisterForm.classList.remove('hidden');
+    };
+  });
+  </script>
+</body>
+</html>

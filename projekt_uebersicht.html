@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Projektübersicht</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="projekt_uebersicht.css">
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="sidebar-header"></div>
+    <div class="search-box">
+      <input type="text" placeholder="Search..." />
+      <span class="search-icon">🔍</span>
+    </div>
+    <div class="user-area" id="userArea" style="display: none;">
+      <p class="user-name">Willkommen, <span id="usernameDisplay">Benutzer</span></p>
+      <ul class="user-links" id="userLinks">
+        <!-- Links werden per JS gesetzt -->
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="main-header">
+      <h1><a href="Index.html">Research Connect</a></h1>
+      <nav class="nav">
+        <a href="Index.html">Home</a>
+        <a href="projekt.html">Projekte</a>
+        <a href="personen.html">Personen</a>
+        <a href="fachbereich.html">Fachbereiche</a>
+        <a href="login.html" id="login-link">Login 🔐</a>
+        <span id="user-display"></span>
+      </nav>
+    </header>
+
+    <div class="projekt-detail-container">
+      <div style="display: flex; align-items: center; margin-bottom: 0;">
+        <button onclick="window.history.back()" style="padding:8px 18px;font-size:1rem;border-radius:8px;border:none;background:#54c8c3;color:#fff;cursor:pointer;box-shadow:0 2px 8px rgba(84,200,195,0.10);margin-bottom:18px;">
+          ← Zurück
+        </button>
+      </div>
+      <div class="projekt-header">
+        <h1 id="projektTitel">Projektname</h1>
+      </div>
+      <div class="projekt-gallery">
+        <div class="img-placeholder">Bild 1</div>
+        <div class="img-placeholder">Bild 2</div>
+        <div class="img-placeholder">Bild 3</div>
+      </div>
+      <div class="projekt-content" id="projektBeschreibung">
+        <!-- Projektbeschreibung -->
+      </div>
+      <div class="projekt-facts">
+        <div class="projekt-fact-card">
+          <h3>Fachbereich</h3>
+          <ul>
+            <li id="projektFachbereich">---</li>
+          </ul>
+        </div>
+        <div class="projekt-fact-card">
+          <h3>Ort</h3>
+          <ul>
+            <li id="projektOrt">---</li>
+          </ul>
+        </div>
+        <div class="projekt-fact-card">
+          <h3>Zeitraum</h3>
+          <ul>
+            <li>Start: <span id="projektStart">---</span></li>
+            <li>Ende: <span id="projektEnde">---</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="projekt-fact-card">
+        <h3>Forschungsgruppe</h3>
+        <ul id="projektGruppe">
+          <!-- Dynamisch gefüllt -->
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <aside class="right-logo">
+    <img src="images/fh banner.png" />
+  </aside>
+</div>
+
+<script>
+  // User-Login/Logout und Sidebar-Logik wie auf Index.html
+  document.addEventListener("DOMContentLoaded", () => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const username = localStorage.getItem('username') || 'Benutzer';
+    const role = localStorage.getItem('role') || 'user';
+
+    const userArea = document.getElementById('userArea');
+    const usernameDisplay = document.getElementById('usernameDisplay');
+    const loginLink = document.getElementById('login-link');
+    const userDisplay = document.getElementById('user-display');
+    const userLinks = document.getElementById('userLinks');
+
+    if (isLoggedIn) {
+      userArea.style.display = 'block';
+      usernameDisplay.textContent = username;
+
+      if (role === 'staff') {
+        userLinks.innerHTML = `
+            <li><a href="mitarbeiter_profil.html">👤 Mitarbeiter-Profil</a></li>
+            <li><a href="projekterstellung.html">➕ Projekt erstellen</a></li>
+            <li><a href="eigene_projekte.html">📁 Eigene Projekte</a></li>
+          `;
+      } else {
+        userLinks.innerHTML = `
+            <li><a href="profil.html">👤 Profil</a></li>
+            <li><a href="projekterstellung.html">➕ Projekt erstellen</a></li>
+            <li><a href="eigene_projekte.html">📁 Eigene Projekte</a></li>
+          `;
+      }
+
+      loginLink.textContent = 'Abmelden 🔓';
+      loginLink.href = '#';
+      loginLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('username');
+        localStorage.removeItem('role');
+        location.reload();
+      });
+
+      if (role === 'staff') {
+        userDisplay.innerHTML = `Hallo, <strong>${username}</strong> <span style="color:#007bff;">(Mitarbeiter)</span>`;
+      } else {
+        userDisplay.innerHTML = `Hallo, <strong>${username}</strong>`;
+      }
+    } else {
+      userArea.style.display = 'none';
+      loginLink.textContent = 'Login 🔐';
+      loginLink.href = 'login.html';
+      userDisplay.textContent = '';
+    }
+
+    //Suchfunktion
+    const searchInput = document.querySelector(".search-box input");
+
+    searchInput.addEventListener("input", function () {
+      const query = this.value.toLowerCase();
+
+      const programme = [
+        { titel: "Talentförderung für Schüler:innen", link: "Talentföderung1.html" },
+        { titel: "Startup Lab Förderprogramm", link: "Startup-Lab-Förderprogramm.html" },
+        { titel: "Frauen in Forschung & Technik", link: "Frauen-in-Forschung&Technik.html" },
+        { titel: "Internationale Förderung", link: "Internationale-Förderung.html" },
+        { titel: "Soziale Innovation fördern", link: "Soziale-Innovation-fördern.html" }
+      ];
+
+      const projektKeys = JSON.parse(localStorage.getItem("projekte_liste") || "[]");
+
+      const eigeneProjekte = projektKeys
+              .map(key => JSON.parse(localStorage.getItem("projekt_" + key)))
+              .filter(projekt =>
+                      projekt &&
+                      (projekt.titel?.toLowerCase().includes(query) ||
+                              projekt.thema?.toLowerCase().includes(query) ||
+                              projekt.beschreibung?.toLowerCase().includes(query) ||
+                              projekt.fachbereich?.toLowerCase().includes(query))
+              )
+              .map(projekt => ({
+                titel: projekt.titel,
+                link: `projekt_uebersicht.html?titel=${encodeURIComponent(projekt.titel)}`
+              }));
+
+      const results = [...matchingProgramme, ...eigeneProjekte];
+      showSearchResults(results);
+    });
+
+    function showSearchResults(results) {
+      let resultBox = document.getElementById("search-results");
+      if (!resultBox) {
+        resultBox = document.createElement("div");
+        resultBox.id = "search-results";
+        resultBox.style.position = "absolute";
+        resultBox.style.background = "#fff";
+        resultBox.style.border = "1px solid #ccc";
+        resultBox.style.maxHeight = "200px";
+        resultBox.style.overflowY = "auto";
+        resultBox.style.zIndex = 1000;
+        resultBox.style.width = "100%";
+        searchInput.parentNode.appendChild(resultBox);
+      }
+
+      resultBox.innerHTML = "";
+
+      if (results.length === 0) {
+        resultBox.innerHTML = "<p style='margin: 8px;'>Keine Treffer</p>";
+        return;
+      }
+
+      results.forEach(item => {
+        const div = document.createElement("div");
+        div.style.padding = "8px";
+        div.style.borderBottom = "1px solid #eee";
+        div.style.cursor = "pointer";
+        div.textContent = item.titel;
+        div.onclick = () => {
+          window.location.href = item.link;
+        };
+        resultBox.appendChild(div);
+      });
+    }
+
+    // Projekt-Daten laden
+    const params = new URLSearchParams(window.location.search);
+    const titel = params.get('titel');
+    document.getElementById('projektTitel').textContent = titel || 'Projektübersicht';
+
+    const projekt = JSON.parse(localStorage.getItem('projekt_' + titel));
+    if (projekt) {
+      const staticProfiles = [
+        {
+          name: "Tim Cheese",
+          bild: "images/Tim_Cheese.png",
+          expertise: ["Expertise 1", "Expertise 2"],
+          projekt: "Projekttitel",
+          email: "tim.cheese@email.com"
+        }
+        // Weitere statische Profile ergänzen bei Bedarf
+      ];
+      const staffProfiles = JSON.parse(localStorage.getItem('staffProfiles') || '[]');
+      const allProfiles = [...staticProfiles, ...staffProfiles];
+
+      // Match research group emails to profiles
+      let groupHtml = '<p><strong>Forschungsgruppe:</strong><br>';
+      if (projekt.forschungsgruppe && projekt.forschungsgruppe.length > 0) {
+        projekt.forschungsgruppe.forEach(email => {
+          const person = allProfiles.find(p => p.email === email);
+          if (person) {
+            groupHtml += `${person.name} (<a href="mailto:${person.email}">${person.email}</a>)<br>`;
+          } else {
+            groupHtml += `${email}<br>`; // fallback
+          }
+        });
+        groupHtml += '</p>';
+      } else {
+        groupHtml = '<p><strong>Forschungsgruppe:</strong> Keine Mitglieder</p>';
+      }
+
+      // Fill in the content
+      document.getElementById('projektFachbereich').textContent = projekt.fachbereich;
+      document.getElementById('projektOrt').textContent = projekt.ort;
+      document.getElementById('projektStart').textContent = projekt.startdatum;
+      document.getElementById('projektEnde').textContent = projekt.enddatum;
+      document.getElementById('projektBeschreibung').innerHTML = projekt.beschreibung;
+      document.getElementById('projektGruppe').innerHTML = groupHtml;
+    } else {
+      document.getElementById('projektBeschreibung').textContent = "Projekt nicht gefunden.";
+    }
+  });
+</script>
+</body>
+</html>

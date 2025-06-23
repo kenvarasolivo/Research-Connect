@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research Connect</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="personen.css" />
+  <style>
+    .personen-title {
+      text-align: center;
+      color: #54c8c3;
+      margin-top: 40px;
+      margin-bottom: 32px;
+      font-size: 2.1rem;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    #search-results div {
+      font-weight: normal; /* Kein Fett mehr */
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar">
+    <div class="sidebar-header"></div>
+    <div class="search-box">
+      <input type="text" placeholder="Search..." />
+      <span class="search-icon">🔍</span>
+    </div>
+    <div class="user-area" id="userArea" style="display: none;">
+      <p class="user-name">Willkommen, <span id="usernameDisplay">Benutzer</span></p>
+      <ul class="user-links" id="userLinks"></ul>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="main-header">
+      <h1><a href="#">Research Connect</a></h1>
+      <nav class="nav">
+        <a href="Index.html">Home</a>
+        <a href="projekt.html">Projekte</a>
+        <a href="personen.html">Personen</a>
+        <a href="fachbereich.html">Fachbereiche</a>
+        <a href="login.html" id="login-link">Login 🔐</a>
+        <span id="user-display"></span>
+      </nav>
+    </header>
+
+    <h1 class="personen-title">Personen</h1>
+    <div class="profiles" id="allProfiles"></div>
+  </main>
+
+  <aside class="right-logo">
+    <img src="images/fh banner.png" />
+  </aside>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const username = localStorage.getItem('username') || 'Benutzer';
+
+    const userArea = document.getElementById('userArea');
+    const usernameDisplay = document.getElementById('usernameDisplay');
+    const loginLink = document.getElementById('login-link');
+    const userDisplay = document.getElementById('user-display');
+    const userLinks = document.getElementById('userLinks');
+
+    if (isLoggedIn) {
+      const role = localStorage.getItem('role') || 'user';
+      userArea.style.display = 'block';
+      usernameDisplay.textContent = username;
+
+      loginLink.textContent = 'Abmelden 🔓';
+      loginLink.href = '#';
+      loginLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('username');
+        location.reload();
+      });
+
+      userDisplay.innerHTML = `Hallo, <strong>${username}</strong>`;
+
+      if (role === 'staff') {
+        userLinks.innerHTML = `
+            <li><a href="mitarbeiter_profil.html">👤 Mitarbeiter-Profil</a></li>
+            <li><a href="projekterstellung.html">➕ Projekt erstellen</a></li>
+            <li><a href="eigene_projekte.html">📁 Eigene Projekte</a></li>
+          `;
+      } else {
+        userLinks.innerHTML = `
+            <li><a href="profil.html">👤 Profil</a></li>
+            <li><a href="projekterstellung.html">➕ Projekt erstellen</a></li>
+            <li><a href="eigene_projekte.html">📁 Eigene Projekte</a></li>
+          `;
+      }
+    }
+
+    // Statische + gespeicherte Profile laden
+    const staticProfiles = [
+      {
+        name: "Tim Cheese",
+        bild: "images/Tim_Cheese.png",
+        expertise: ["Expertise 1", "Expertise 2"],
+        projekt: "Projekttitel",
+        email: "tim.cheese@email.com"
+      }
+    ];
+
+    const staffProfiles = JSON.parse(localStorage.getItem('staffProfiles') || '[]');
+    const allProfiles = [...staticProfiles, ...staffProfiles];
+
+    const profilesDiv = document.getElementById('allProfiles');
+    profilesDiv.innerHTML = "";
+
+    allProfiles.forEach(profile => {
+      const div = document.createElement('div');
+      div.className = 'profile';
+      div.innerHTML = `
+          <img src="${profile.bild || 'images/default_staff.png'}" alt="${profile.name}">
+          <div class="profile-details">
+            <p><strong>Name:</strong> ${profile.name}</p>
+            <p><strong>Expertise:</strong><br>
+              ${profile.expertise && profile.expertise.length ? profile.expertise.map(e => '- ' + e).join('<br>') : '-'}
+            </p>
+            <p><strong>Aktuelle Projekt:</strong> ${profile.projekt || '-'}</p>
+            <p><strong>Email:</strong> ${profile.email}</p>
+          </div>
+        `;
+      if (profile.name === "Tim Cheese") {
+        div.addEventListener('click', () => {
+          window.location.href = "tim_cheese.html";
+        });
+      } else {
+        div.addEventListener('click', () => {
+          window.location.href = `staff_detail.html?name=${encodeURIComponent(profile.name)}`;
+        });
+      }
+      profilesDiv.appendChild(div);
+    });
+
+    // Förderprogramme für die Suche
+    const foerderprogramme = [
+      { titel: "Talentförderung für Schüler:innen", link: "Talentföderung1.html" },
+      { titel: "Startup Lab Förderprogramm", link: "Startup-Lab-Förderprogramm.html" },
+      { titel: "Frauen in Forschung & Technik", link: "Frauen-in-Forschung&Technik.html" },
+      { titel: "Internationale Förderung", link: "Internationale-Förderung.html" },
+      { titel: "Soziale Innovation fördern", link: "Soziale-Innovation-fördern.html" }
+    ];
+
+    // Suchfunktion
+    const searchInput = document.querySelector(".search-box input");
+
+    searchInput.addEventListener("input", function () {
+      const query = this.value.toLowerCase();
+
+      const projektKeys = JSON.parse(localStorage.getItem("projekte_liste") || "[]");
+      const matchingProjects = projektKeys
+              .map(key => JSON.parse(localStorage.getItem("projekt_" + key)))
+              .filter(projekt =>
+                      projekt &&
+                      (projekt.titel?.toLowerCase().includes(query) ||
+                              projekt.thema?.toLowerCase().includes(query) ||
+                              projekt.beschreibung?.toLowerCase().includes(query) ||
+                              projekt.fachbereich?.toLowerCase().includes(query))
+              );
+
+      const matchingFoerder = foerderprogramme.filter(fp =>
+              fp.titel.toLowerCase().includes(query)
+      );
+
+      showSearchResults([...matchingProjects, ...matchingFoerder]);
+    });
+
+    function showSearchResults(results) {
+      let resultBox = document.getElementById("search-results");
+      if (!resultBox) {
+        resultBox = document.createElement("div");
+        resultBox.id = "search-results";
+        resultBox.style.position = "absolute";
+        resultBox.style.background = "#fff";
+        resultBox.style.border = "1px solid #ccc";
+        resultBox.style.maxHeight = "200px";
+        resultBox.style.overflowY = "auto";
+        resultBox.style.zIndex = 1000;
+        resultBox.style.width = "100%";
+        searchInput.parentNode.appendChild(resultBox);
+      }
+
+      resultBox.innerHTML = "";
+
+      if (results.length === 0) {
+        resultBox.innerHTML = "<p style='margin: 8px;'>Keine Treffer</p>";
+        return;
+      }
+
+      results.forEach(item => {
+        const div = document.createElement("div");
+        div.style.padding = "8px";
+        div.style.borderBottom = "1px solid #eee";
+        div.style.cursor = "pointer";
+        div.style.fontWeight = "normal";
+
+        if (item.titel && item.link) {
+          div.textContent = `${item.titel} – Förderprogramm`;
+          div.onclick = () => {
+            window.location.href = item.link;
+          };
+        } else {
+          div.textContent = `${item.titel} – ${item.fachbereich}`;
+          div.onclick = () => {
+            window.location.href = `projekt_uebersicht.html?titel=${encodeURIComponent(item.titel)}`;
+          };
+        }
+
+        resultBox.appendChild(div);
+      });
+    }
+  });
+</script>
+</body>
+</html>
